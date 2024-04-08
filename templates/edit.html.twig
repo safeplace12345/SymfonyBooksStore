@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container col-11 mx-auto jumbotron">
+    <div class="row col-sm-8">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Title: {{title}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Book ID: {{id}}</h6>
+                <p class="card-text"> ISBN CODE: {{isbn_code}}</p>
+            </div>
+        </div>
+        <form id="form" action="/books/editComplete" method="post">
+        </form>
+    </div>
+</div>
+
+<script>
+    ['id', 'title', 'isbn'].map(field => {
+        if (field == 'id') {
+            return `<div class="form-group">
+                    <label for=${field}>${field.toUpperCase()}</label>
+                    <input type="text" class="form-control" id=${field} aria-describedby=${field}Help placeholder=Enter ${field} readonly name="${field}" value={{id}}>
+                    </div>
+        `
+        }
+        return (`
+            <div class="form-group">
+            <label for=${field}>${field.toUpperCase()}</label>
+            <input type="text" class="form-control" id=${field} aria-describedby=${field}Help placeholder=Enter ${field} name="${field}">
+            </div>
+    `)
+    }).forEach(field => document.getElementById('form').innerHTML += field)
+
+    const form = document.getElementById('form')
+    document.getElementById('form').innerHTML += `<button type="submit" class="btn btn-primary">Submit</button>`
+</script>
+
+{% endblock %}

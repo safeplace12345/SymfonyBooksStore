@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container col-11 mx-auto jumbotron">
+    {% for book in books%}
+    <div class="row col-sm-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{book['title']}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">By {{book['authorName']}} {{book['authorSurName']}}</h6>
+                <p class="card-text">{{book['year_of_publication']}}</p>
+                <p class="card-text">{{book['isbn_code']}}</p>
+                <a href="/books/edit/{{book['id']}}" class="card-link" >Edit Book</a>
+                <a href="books/delete/{{book['id']}}" class="card-link">Delete Book</a>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+<div class="container col-11 mx-auto">
+    <h4>Add a Book</h4>
+    <form id="form" action="/books" method="post">
+    </form>
+</div>
+
+<script>
+    ['title', 'authorName', 'authorSurName', 'country', 'isbn'].map(field => (`
+    <div class="form-group">
+        <label for=${field}>${field.toUpperCase()}</label>
+        <input type="text"
+        required pattern=${field == 'country' || field == 'isbn' ? '[0-9]+' :'[a-zA-Z0-9]+'} class="form-control" id=${field} aria-describedby=${field}Help placeholder=Enter ${field} name="${field}">
+        </div>
+    `)).forEach(field => document.getElementById('form').innerHTML += field)
+        
+        const form = document.getElementById('form')
+document.getElementById('form').innerHTML += `<button type="submit" class="btn btn-primary">Submit</button>`
+</script>
+
+{% endblock %}
